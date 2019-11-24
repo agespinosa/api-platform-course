@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Entity\BlogPost;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -51,19 +52,19 @@ class BlogController extends AbstractController
     }
     /**
      * @Route("/post/{id}", name="blog_id" , requirements={"id"="\d+"}, methods={"GET"})
+     * @ParamConverter("post", class="App:BlogPost")
      */
-    public function post($id){
-        return new JsonResponse(
-            self::POSTS[array_search($id, array_column(self::POSTS, 'id'))]
-        );
+    public function post($post){
+        // It's the same as doing find($id) on repository
+        return $this->json($post);
     }
     /**
      * @Route("/post/{slug}", name="blog_by_slug")
+     * @ParamConverter("post", class="App:BlogPost" , options={"mapping": {"slug": "slug"}})
      */
-    public function postBySlug($slug){
-        return new JsonResponse(
-            self::POSTS[array_search($slug, array_column(self::POSTS, 'slug'))]
-        );
+    public function postBySlug($post){
+        // It's the same as doing find(['slug'=> content of {slug}])
+        return $this->json($post);
     }
 
     /**
