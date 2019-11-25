@@ -6,16 +6,25 @@ use App\Entity\BlogPost;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use function Sodium\add;
 
 class AppFixtures extends Fixture
 {
+    /**
+     * @var UserPasswordEncoderInterface
+     */
+    private $passwordEncoder;
+
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    {
+        $this->passwordEncoder = $passwordEncoder;
+    }
+
     public function load(ObjectManager $manager)
     {
         $this->loadUsers($manager);
         $this->loadBlogPosts($manager);
-        
-
     }
 
     public function loadBlogPosts(ObjectManager $manager){
@@ -52,7 +61,10 @@ class AppFixtures extends Fixture
         $user->setEmail('admin@blog.com');
         $user->setName('Administrador');
 
-        $user->setPassword('secret123#');
+        $user->setPassword($this->passwordEncoder->encodePassword(
+            $user,
+            'secret123#'
+        ));
         $this->addReference('user_admin', $user);
         $manager->persist($user);
         $manager->flush();
