@@ -120,7 +120,7 @@ class BlogPost
     }
 
 
-    public function setAuthor(?User $author): self
+    public function setAuthor(User $author): self
     {
         $this->author = $author;
         return $this;
