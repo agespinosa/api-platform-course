@@ -2,8 +2,11 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
+
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\BlogPostRepository")
@@ -29,7 +32,13 @@ class BlogPost
     private $published;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="posts")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $author;
+
+    /**
+     * @ORM\Column(type="string", length=255)
      */
     private $content;
 
@@ -38,10 +47,6 @@ class BlogPost
      */
     private $slug;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $author;
 
     public function getId(): ?int
     {
@@ -60,54 +65,67 @@ class BlogPost
         return $this;
     }
 
-    public function getPublished(): ?\DateTimeInterface
+    /**
+     * @return mixed
+     */
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    /**
+     * @param mixed $slug
+     */
+    public function setSlug($slug): void
+    {
+        $this->slug = $slug;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPublished():?\DateTimeInterface
     {
         return $this->published;
     }
 
-    public function setPublished(\DateTimeInterface $published): self
+    /**
+     * @param mixed $published
+     */
+    public function setPublished(\DateTimeInterface $published): void
     {
         $this->published = $published;
-
-        return $this;
     }
 
-    public function getContent(): ?string
+    /**
+     * @return mixed
+     */
+    public function getContent()
     {
         return $this->content;
     }
 
-    public function setContent(string $content): self
+    /**
+     * @param mixed $content
+     */
+    public function setContent($content): void
     {
         $this->content = $content;
-
-        return $this;
     }
 
-    public function getAuthor(): ?string
+
+    public function getAuthor(): ?User
     {
         return $this->author;
     }
 
 
-    public function setAuthor(string $author): self
+    public function setAuthor(?User $author): self
     {
         $this->author = $author;
-
         return $this;
     }
 
-
-    public function getSlug():?string
-    {
-        return $this->slug;
-    }
-
-
-    public function setSlug($slug): void
-    {
-        $this->slug = $slug;
-    }
 
 
 }

@@ -28,6 +28,28 @@ class Comment
      */
     private $published;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="comments")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $author;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\BlogPost", inversedBy="comments")
+     */
+    private $blogPost;
+
+    public function getBlogPost():?BlogPost
+    {
+        return $this->blogPost;
+    }
+
+    public function setBlogPost($blogPost): self
+    {
+        $this->blogPost = $blogPost;
+        return $this;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -38,7 +60,7 @@ class Comment
         return $this->content;
     }
 
-    public function setContent(string $content): self
+    public function setContent(string $content):self
     {
         $this->content = $content;
 
@@ -50,10 +72,21 @@ class Comment
         return $this->published;
     }
 
-    public function setPublished(\DateTimeInterface $published): self
+    public function setPublished(\DateTimeInterface $published):self
     {
         $this->published = $published;
 
+        return $this;
+    }
+
+    public function getAuthor():User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(User $author):self
+    {
+        $this->author = $author;
         return $this;
     }
 }
