@@ -39,12 +39,12 @@ class Comment
      */
     private $blogPost;
 
-    public function getBlogPost():?BlogPost
+    public function getBlogPost(): BlogPost
     {
         return $this->blogPost;
     }
 
-    public function setBlogPost($blogPost): self
+    public function setBlogPost(BlogPost $blogPost): self
     {
         $this->blogPost = $blogPost;
         return $this;
@@ -89,4 +89,6 @@ class Comment
         $this->author = $author;
         return $this;
     }
+
+
 }
