@@ -41,6 +41,10 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank()
+     * @Assert\Regex(
+     *     pattern="/(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{7,}/",
+     *     message="La password debe tener 7 caracteres como minimo, contener al menos 1 digito, 1 letra minuscula y 1 letra mayuscula"
+     * )
      */
     private $password;
 
