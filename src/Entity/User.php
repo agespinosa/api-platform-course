@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ApiResource(
  *     itemOperations={
  *          "get"={
- *                 "access_contro"="is_granted('IS_AUTHENTICATED_FULLY')"
+ *                 "access_control"="is_granted('IS_AUTHENTICATED_FULLY')"
  *           }
  *     },
  *     collectionOperations={"post"},
